@@ -33,36 +33,47 @@
             border-radius: 12px;
             width: 100%;
             max-width: 650px;
-            padding: 15px;
+            padding: 12px;
             text-align: center;
             position: relative;
         }
 
         h1 {
-            font-size: clamp(9px, 2.5vw, 11px);
+            font-size: clamp(8px, 2.8vw, 11px);
             color: #ffd700;
             text-shadow: 2px 2px #ff0077;
             margin-bottom: 6px;
+            line-height: 1.4;
         }
 
         .instructions {
             font-size: clamp(6px, 1.8vw, 7px);
             color: #b3ffcc;
-            margin-bottom: 10px;
-            line-height: 1.5;
+            margin-bottom: 8px;
+            line-height: 1.4;
         }
 
-        /* Pantalla de juego fija y estable */
-        #game-world {
+        /* Contenedor responsivo que escala proporcionalmente en vertical y horizontal */
+        .game-scaler {
             width: 100%;
+            aspect-ratio: 600 / 220;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        /* Pantalla interna con resolución virtual fija de 600x220 */
+        #game-world {
+            width: 600px;
             height: 220px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: top left;
             background-image: url('paisaje.jpg');
             background-size: cover;
             background-position: center;
             border: 4px solid #000;
-            position: relative;
             overflow: hidden;
-            margin-bottom: 12px;
             image-rendering: pixelated;
         }
 
@@ -82,7 +93,7 @@
             image-rendering: pixelated;
         }
 
-        /* Cactus gigantes con posiciones fijas correctas */
+        /* Cactus gigantes */
         .obstacle {
             position: absolute;
             bottom: 36px;
@@ -101,15 +112,15 @@
         }
 
         #obs2 {
-            left: 380px;
+            left: 370px;
             background-image: url('obstaculo 2.png');
         }
 
-        /* Castillo grande en su lugar correcto al final */
+        /* Castillo grande en el suelo */
         #castle-img {
             position: absolute;
             bottom: 36px;
-            right: 20px;
+            right: 15px;
             width: 110px;
             height: 100px;
             background-image: url('castillo2.png');
@@ -133,19 +144,19 @@
             z-index: 6;
         }
 
-        /* Controles táctiles asegurados en pantalla */
+        /* Controles táctiles adaptables */
         .controls {
             display: flex;
             justify-content: space-between;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 8px;
+            margin-top: 6px;
         }
 
         .ctrl-btn {
             background-color: #ffd700;
             color: #120c26;
             border: 3px solid #ff0077;
-            padding: 14px 10px;
+            padding: 12px 6px;
             font-family: 'Press Start 2P', monospace;
             font-size: clamp(8px, 2.5vw, 10px);
             cursor: pointer;
@@ -179,7 +190,7 @@
             margin-top: 12px;
             text-align: left;
             background: rgba(18, 12, 38, 0.95);
-            padding: 18px;
+            padding: 16px;
             border: 3px solid #ffd700;
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
@@ -194,15 +205,17 @@
             <h1>¡AYUDA A LA PRINCESA JULIA - NIVEL 21!</h1>
             <p class="instructions">Usa los botones táctiles o el teclado para saltar los cactus gigantes hasta el castillo.</p>
             
-            <div id="game-world">
-                <div id="princess"></div>
-                <div id="obs1" class="obstacle"></div>
-                <div id="obs2" class="obstacle"></div>
-                <div id="castle-img"></div>
-                <div class="ground"></div>
+            <div class="game-scaler" id="scaler-container">
+                <div id="game-world">
+                    <div id="princess"></div>
+                    <div id="obs1" class="obstacle"></div>
+                    <div id="obs2" class="obstacle"></div>
+                    <div id="castle-img"></div>
+                    <div class="ground"></div>
+                </div>
             </div>
 
-            <div style="font-size: 7px; color: #ffd700; margin-bottom: 8px;">META: LLEGA AL CASTILLO 🏰</div>
+            <div style="font-size: 7px; color: #ffd700; margin-bottom: 6px;">META: LLEGA AL CASTILLO 🏰</div>
             
             <div class="controls">
                 <button class="ctrl-btn" ontouchstart="moveLeft()" ontouchend="stopMove()" onmousedown="moveLeft()" onmouseup="stopMove()">◄ IZQ</button>
@@ -218,13 +231,16 @@
             <div class="reward-box">
                 <strong style="color: #ffd700; display: block; margin-bottom: 12px; text-align: center; font-size: clamp(8px, 2.5vw, 10px);">¡FELIZ CUMPLEAÑOS, JULIA! (NIVEL 21)</strong>
                 Superaste todas las plataformas de la UNEFA, esquivaste cada obstáculo del camino y completaste el nivel con éxito absoluto.<br><br>
-                Que este nuevo año de vida venga cargado de metas cumplidas, mucha salud, momentos alegres y cero estrés con los profesores(cero estres please). ¡Pásala increíble este domingo en tu día!💜💜
+                Que este nuevo año de vida venga cargado de metas cumplidas, mucha salud, momentos alegres y cero estrés con los profesores( cero estres please). ¡Pásala increíble este domingo en tu día!💜💜
             </div>
         </div>
     </div>
 
     <script>
         let princess = document.getElementById('princess');
+        let gameWorld = document.getElementById('game-world');
+        let scalerContainer = document.getElementById('scaler-container');
+
         let posX = 40;
         let posY = 36;
         let isJumping = false;
@@ -232,7 +248,18 @@
         let gameActive = true;
         let jumpVelocity = 0;
 
-        // Soporte para teclado de PC
+        // Ajuste dinámico de escala para que se vea idéntico en vertical y horizontal
+        function resizeGameWorld() {
+            let containerWidth = scalerContainer.clientWidth;
+            let scale = containerWidth / 600;
+            gameWorld.style.transform = `scale(${scale})`;
+        }
+
+        window.addEventListener('resize', resizeGameWorld);
+        window.addEventListener('load', resizeGameWorld);
+        resizeGameWorld();
+
+        // Soporte teclado PC
         document.addEventListener('keydown', (e) => {
             if (!gameActive) return;
             if (e.code === 'ArrowRight' || e.code === 'KeyD') moveDir = 3.5;
@@ -275,9 +302,9 @@
                 princess.style.bottom = posY + 'px';
             }
 
-            // Detección de colisión precisa con los cactus
+            // Colisiones internas exactas
             if (!isJumping && posY <= 36) {
-                if ((posX >= 170 && posX <= 235) || (posX >= 350 && posX <= 415)) {
+                if ((posX >= 170 && posX <= 235) || (posX >= 340 && posX <= 405)) {
                     posX -= moveDir;
                     princess.style.left = posX + 'px';
                 }
