@@ -23,39 +23,39 @@
             align-items: center;
             justify-content: center;
             padding: 10px;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         .arcade-cabinet {
             background: #120926;
             border: 4px solid #ffd700;
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
-            border-radius: 10px;
-            max-width: 650px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+            border-radius: 12px;
             width: 100%;
+            max-width: 650px;
             padding: 15px;
             text-align: center;
             position: relative;
         }
 
         h1 {
-            font-size: 10px;
+            font-size: clamp(9px, 2.5vw, 11px);
             color: #ffd700;
             text-shadow: 2px 2px #ff0077;
             margin-bottom: 6px;
         }
 
         .instructions {
-            font-size: 6px;
+            font-size: clamp(6px, 1.8vw, 7px);
             color: #b3ffcc;
             margin-bottom: 10px;
             line-height: 1.5;
         }
 
-        /* Pantalla del juego */
+        /* Pantalla de juego fija y estable */
         #game-world {
             width: 100%;
-            height: 200px;
+            height: 220px;
             background-image: url('paisaje.jpg');
             background-size: cover;
             background-position: center;
@@ -82,12 +82,12 @@
             image-rendering: pixelated;
         }
 
-        /* Cactus gigantes */
+        /* Cactus gigantes con posiciones fijas correctas */
         .obstacle {
             position: absolute;
             bottom: 36px;
-            width: 64px;
-            height: 92px;
+            width: 52px;
+            height: 76px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: bottom;
@@ -96,22 +96,22 @@
         }
 
         #obs1 {
-            left: 180px;
+            left: 200px;
             background-image: url('obstaculo 1.png');
         }
 
         #obs2 {
-            left: 360px;
+            left: 380px;
             background-image: url('obstaculo 2.png');
         }
 
-        /* Castillo grande en el piso */
+        /* Castillo grande en su lugar correcto al final */
         #castle-img {
             position: absolute;
             bottom: 36px;
-            right: 15px;
-            width: 125px;
-            height: 110px;
+            right: 20px;
+            width: 110px;
+            height: 100px;
             background-image: url('castillo2.png');
             background-size: contain;
             background-repeat: no-repeat;
@@ -133,27 +133,27 @@
             z-index: 6;
         }
 
-        /* Controles optimizados para celulares y PC */
+        /* Controles táctiles asegurados en pantalla */
         .controls {
             display: flex;
             justify-content: space-between;
             gap: 10px;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .ctrl-btn {
             background-color: #ffd700;
             color: #120c26;
             border: 3px solid #ff0077;
-            padding: 14px 18px;
+            padding: 14px 10px;
             font-family: 'Press Start 2P', monospace;
-            font-size: 9px;
+            font-size: clamp(8px, 2.5vw, 10px);
             cursor: pointer;
             font-weight: bold;
             box-shadow: 3px 3px 0px #ff0077;
             user-select: none;
             flex: 1;
-            border-radius: 6px;
+            border-radius: 8px;
         }
         .ctrl-btn:active {
             transform: translate(2px, 2px);
@@ -173,13 +173,13 @@
         }
 
         .reward-box {
-            font-size: 7px;
+            font-size: clamp(7px, 2.2vw, 9px);
             color: #00ffff;
             line-height: 2.2;
             margin-top: 12px;
             text-align: left;
             background: rgba(18, 12, 38, 0.95);
-            padding: 15px;
+            padding: 18px;
             border: 3px solid #ffd700;
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
@@ -191,8 +191,8 @@
     <div class="arcade-cabinet">
         <!-- FASE 1: JUEGO -->
         <div id="game-section">
-            <h1>AYUDA A LA PRINCESA JULIA - NIVEL 21</h1>
-            <p class="instructions">Usa los botones táctiles para moverte y saltar los cactus gigantes hasta el castillo.</p>
+            <h1>¡AYUDA A LA PRINCESA JULIA - NIVEL 21!</h1>
+            <p class="instructions">Usa los botones táctiles o el teclado para saltar los cactus gigantes hasta el castillo.</p>
             
             <div id="game-world">
                 <div id="princess"></div>
@@ -213,12 +213,12 @@
 
         <!-- FASE 2: CARTA DE FELICITACIÓN -->
         <div id="castle-card-reward">
-            <h1 style="color: #ffd700; font-size: 11px;">🏰 ¡CASTILLO ALCANZADO CON ÉXITO! 🏰</h1>
-            <div style="font-size: 24px; margin: 8px;">👑 🎉 🎂</div>
+            <h1 style="color: #ffd700; font-size: clamp(10px, 3vw, 13px);">🏰 ¡CASTILLO ALCANZADO CON ÉXITO! 🏰</h1>
+            <div style="font-size: 28px; margin: 10px;">👑 🎉 🎂</div>
             <div class="reward-box">
-                <strong style="color: #ffd700; display: block; margin-bottom: 10px; text-align: center; font-size: 8px;">¡FELIZ CUMPLEAÑOS, JULIA! (YA ESTAS EN EL NIVEL 21)</strong>
+                <strong style="color: #ffd700; display: block; margin-bottom: 12px; text-align: center; font-size: clamp(8px, 2.5vw, 10px);">¡FELIZ CUMPLEAÑOS, JULIA! (NIVEL 21)</strong>
                 Superaste todas las plataformas de la UNEFA, esquivaste cada obstáculo del camino y completaste el nivel con éxito absoluto.<br><br>
-                Que este nuevo año de vida venga cargado de metas cumplidas, mucha salud, momentos alegres y cero estrés con los profesores( cero estres please). ¡Pásala increíble este domingo en tu día!💜
+                Que este nuevo año de vida venga cargado de metas cumplidas, mucha salud, momentos alegres y cero estrés con los profesores(cero estres please). ¡Pásala increíble este domingo en tu día!💜💜
             </div>
         </div>
     </div>
@@ -232,11 +232,11 @@
         let gameActive = true;
         let jumpVelocity = 0;
 
-        // Soporte para teclado de PC por si acaso
+        // Soporte para teclado de PC
         document.addEventListener('keydown', (e) => {
             if (!gameActive) return;
-            if (e.code === 'ArrowRight' || e.code === 'KeyD') moveDir = 3;
-            if (e.code === 'ArrowLeft' || e.code === 'KeyA') moveDir = -3;
+            if (e.code === 'ArrowRight' || e.code === 'KeyD') moveDir = 3.5;
+            if (e.code === 'ArrowLeft' || e.code === 'KeyA') moveDir = -3.5;
             if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW') jump();
         });
 
@@ -245,14 +245,14 @@
             if ((e.code === 'ArrowLeft' || e.code === 'KeyA') && moveDir < 0) moveDir = 0;
         });
 
-        function moveLeft() { if (gameActive) moveDir = -3; }
-        function moveRight() { if (gameActive) moveDir = 3; }
+        function moveLeft() { if (gameActive) moveDir = -3.5; }
+        function moveRight() { if (gameActive) moveDir = 3.5; }
         function stopMove() { moveDir = 0; }
 
         function jump() {
             if (isJumping || !gameActive) return;
             isJumping = true;
-            jumpVelocity = 13;
+            jumpVelocity = 13.5;
         }
 
         function updateGame() {
@@ -275,15 +275,15 @@
                 princess.style.bottom = posY + 'px';
             }
 
-            // Colisión con cactus gigantes
+            // Detección de colisión precisa con los cactus
             if (!isJumping && posY <= 36) {
-                if ((posX >= 165 && posX <= 235) || (posX >= 345 && posX <= 415)) {
+                if ((posX >= 170 && posX <= 235) || (posX >= 350 && posX <= 415)) {
                     posX -= moveDir;
                     princess.style.left = posX + 'px';
                 }
             }
 
-            // Llegada a la meta del castillo
+            // Meta al llegar al castillo
             if (posX >= 460) {
                 winGame();
             }
